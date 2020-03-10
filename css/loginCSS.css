@@ -1,0 +1,96 @@
+body {
+	background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url("images/login.jpeg");
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	text-align: center;
+	width: 100%;
+	margin: auto;
+	color: white;
+}
+
+h1,p {text-align:center;
+	float: center;
+	color:white;}
+	
+.logincss p, .logincss h1, .logincss1 p, .logincss1 h1, div,form {text-align:center;
+	float: center;
+	color:black;}
+
+
+.appliform{display:none;}
+
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: rgba(249,214,160,0.5);
+  width: 15%;
+  margin:auto;  
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: center;
+  border: 1px solid;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+  color:white;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  color:black;
+
+}
+
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border-top: none;
+}
+
+.logincss{
+	margin:auto;
+	background: white;
+	width: 450px;
+  	border: 2px dotted #4F271F;
+
+}
+
+.logincss1{
+	margin:auto;
+  background: white;
+  width: 450px;
+  	border: 2px dotted #4F271F;
+
+}
+
+.registercss{
+  margin:auto;
+  background: white;
+  width: 450px;
+  border: 2px dotted #4F271F;
+}
+
+.registercss h1, .registercss p{
+  color: black;
+}
+
+.registercss1{
+  margin:auto;
+  background: white;
+  width: 450px;
+  border: 2px dotted #4F271F;
+}
+
+.registercss1 h1, .registercss1 p{
+  color: black;
+}
