@@ -1,15 +1,15 @@
 <?php
 session_start();
 if (isset($_POST['mID'])){
-    $_SESSION['collector'] = $_POST['colUsername'];
-    
+    $_SESSION['collector'] = $_POST['collectorUsername'];
+    //$collector = $_POST['collectorUsername'];
 }
-$_SESSION['collector'] = $_POST['colUsername'];
+$_SESSION['collector'] = $_POST['collectorUsername'];
 $collector = $_SESSION['collector'];
-
-
-//include 'connection.php';
-$mysqli = new mysqli('localhost', 'root', '', 'earthprotectors');
+//$collector = $_POST['collectorUsername'];
+?>
+<?php 
+include 'connection.php';
 //session_start();
 if (isset($_GET['username']))
 {
@@ -21,8 +21,7 @@ if ($get_user->num_rows == 1)
            
 }
        
-}
-?> 
+}?> 
 
 <!DOCTYPE html>
 <html lang="en">
@@ -45,7 +44,7 @@ if ($get_user->num_rows == 1)
 
   <link rel="stylesheet" href="css/jquery.fancybox.min.css">
 
-  <!--<link rel="stylesheet" href="css/bootstrap-datepicker.css">-->
+  <link rel="stylesheet" href="css/bootstrap-datepicker.css">
 
   <link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
 
@@ -54,9 +53,74 @@ if ($get_user->num_rows == 1)
 
   <link rel="stylesheet" href="css/style.css">
 
+  <script type="text/javascript">
+			function showMessage(){
+				alert("Successful appointment!");
+			}
+		</script>
 
-  
+  <style>
+    table {
+    border-collapse: collapse;
+    float: center;
+    background-color: #fefefe;
+}
+table  tr td {
+    border: 1px solid #000;
+    padding: 10px;
+    vertical-align: top;
+    text-align: left;
+}
+table th{
+    border: 1px solid #000;
+    padding: 10px;
+    vertical-align: top;
+    text-align: left;
+}
+.dropbtn {
+  border: none;
+  }
 
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+
+  .dropdown-content a:hover {background-color: #ddd;}
+
+  .dropdown:hover .dropdown-content {display: block;}
+
+  .dropdown:hover .dropbtn {background-color: grey;}
+  </style>
+
+  <script type="text/javascript">
+  function dashboard() {
+  var dashboard = document.getElementById("dashboard");
+  var view = document.getElementById("view");
+  if (view.style.display === "none") {
+    view.style.display = "block";
+  } else {
+    view.style.display = "none";
+  }
+}
+function 
+  </script>
 
 
 </head>
@@ -107,8 +171,8 @@ if ($get_user->num_rows == 1)
                 <li><div class="dropdown">
                   <button class="dropbtn">Manage User</button>
                   <div class="dropdown-content">
-                  <a href="userprofileR.php?username=<?php //echo $_SESSION['username'] ?>">View Profile</a>      
-                    <a href="editprofileViewR.php?username=<?php //echo $_SESSION['username'] ?>">Edit Profile</a>
+                  <a href="userprofileR.php?username=<?php echo $_SESSION['username'] ?>">View Profile</a>      
+                    <a href="editprofileViewR.php?username=<?php echo $_SESSION['username'] ?>">Edit Profile</a>
                   </div>
                 </div></li>
                 <li class="nav-link text-left" border="1px solid black">
@@ -154,13 +218,13 @@ if ($get_user->num_rows == 1)
 
     <div id="container" align="center">
     
-        <form id="submission" method="POST" action="proposedDate.php"'>
+        <form id="submission" method="POST" action="proposedDate.php">
         <?php ($row = $result->fetch_assoc())?>
             
             
             <div class="col-md-4">
             <label class="username">Collector Username</label>
-            <input type="text" class="form-control"  name="ColUsername" placeholder="Collector Username" required value="<?php echo $_SESSION['collector']; ?>"disabled></input>
+            <input type="text" class="form-control"  name="colSubUsername" placeholder="Collector Username" required value="<?php echo $_SESSION['collector']; ?>"disabled></input>
             </div>
             <br>
             <div class="col-md-4">
@@ -180,10 +244,10 @@ if ($get_user->num_rows == 1)
             <br>
             <div class="col-md-4">
             <label class="timeto">Proposed Date</label>
-            <input type="date" class="form-control" id="ProposedDate"  name="ProposedDate" placeholder="Proposed Date" required ></input>
+            <input type="date" class="form-control"  name="ProposedDate" placeholder="Proposed Date" required  ></input>
             </div>
             <br>
-            <input class="btn btn-sm btn-primary" type="submit" value="Submit" name="submit">
+            <input class="btn btn-sm btn-primary" type="submit" value="Submit" name="submit" >
             <br>
         </form>
         
@@ -230,7 +294,34 @@ if ($get_user->num_rows == 1)
       </div>
     </div>
 
-
+    <div class="site-section bg-light">
+      <div class="container">
+        <div class="owl-carousel owl-slide-3 owl-slide">
+        
+          <blockquote class="testimony">
+            <img src="images/person_1.jpg" alt="Image">
+            <p>&ldquo;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero sapiente beatae, nemo quasi quo neque consequatur rem porro reprehenderit, a dignissimos unde ut enim fugiat deleniti quae placeat in cumque?&rdquo;</p>
+            <p class="small text-primary">&mdash; Collin Miller</p>
+          </blockquote>
+          <blockquote class="testimony">
+            <img src="images/person_2.jpg" alt="Image">
+            <p>&ldquo;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero sapiente beatae, nemo quasi quo neque consequatur rem porro reprehenderit, a dignissimos unde ut enim fugiat deleniti quae placeat in cumque?&rdquo;</p>
+            <p class="small text-primary">&mdash; Harley Perkins</p>
+          </blockquote>
+          <blockquote class="testimony">
+            <img src="images/person_3.jpg" alt="Image">
+            <p>&ldquo;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero sapiente beatae, nemo quasi quo neque consequatur rem porro reprehenderit, a dignissimos unde ut enim fugiat deleniti quae placeat in cumque?&rdquo;</p>
+            <p class="small text-primary">&mdash; Levi Morris</p>
+          </blockquote>
+          <blockquote class="testimony">
+            <img src="images/person_1.jpg" alt="Image">
+            <p>&ldquo;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero sapiente beatae, nemo quasi quo neque consequatur rem porro reprehenderit, a dignissimos unde ut enim fugiat deleniti quae placeat in cumque?&rdquo;</p>
+            <p class="small text-primary">&mdash; Allie Smith</p>
+          </blockquote>
+        
+        </div>
+      </div>
+    </div>
   
 
     
@@ -289,6 +380,26 @@ if ($get_user->num_rows == 1)
   <script src="js/jquery.mb.YTPlayer.min.js"></script>
 
 
+
+
+  <script src="js/main.js"></script>
+  <script>
+      $(document).ready(function(){
+          $('.DATEPICKER').datepicker({
+                autoclose: true;
+                startDate: new Date(),
+                daysOfWeekDisabled:"0,2,3,4,5,6"
+          })
+      });
+
+      $(document).ready(function(){
+          $('.DATEPICKER').datepicker({
+                autoclose: true;
+                startDate: new Date(),
+                daysOfWeekDisabled:"0,2,3,4,5,6"
+          })
+      });
+  </script>
 
 </body>
 

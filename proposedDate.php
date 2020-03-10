@@ -3,7 +3,7 @@
 session_start();
 
 $proposedDate = $_POST['ProposedDate'];
-$ColUsername = $_SESSION['collector'];
+$ColUsername = $_SESSION['collector'];;
 
 
 
@@ -25,7 +25,6 @@ echo " Connected Successfully";
 
 $useDB = " use earthprotectors ";
 $conn->query($useDB);
-//create table
 $submissionQry = " create table if not exists submission 
 (submissionID int(25) NOT NULL AUTO_INCREMENT PRIMARY KEY, 
 proposedDate varchar(25), actualDate varchar(25), weightInKg int(10), 
