@@ -112,15 +112,15 @@ session_start();
 					<form name="myForm" onsubmit="return validate()" method="POST" action="recyclerRegister.php">
 					
 					<label class="form-check-label">Username</label>
-					<input type="text" name="UserName" class="form-control" placeholder="Username" >
+					<input type="text" name="UserName" class="form-control" placeholder="Username" required>
 					
 					<br>
 					<label class="form-check-label">Password</label>
-					<input type="password" name="Password" class="form-control" placeholder="Password" >
+					<input type="password" name="Password" class="form-control" placeholder="Password" required>
 					
 					<br>
 					<label class="form-check-label">Full Name</label>
-					<input type="text" name="FullName" class="form-control" placeholder="Full Name" >
+					<input type="text" name="FullName" class="form-control" placeholder="Full Name" required>
 					
 					<!--<br>
 					<label class="form-check-label">Email</label>
@@ -144,23 +144,23 @@ session_start();
 				<form name="myForm1" onsubmit="return validate2()" method="POST" action="collectorRegister.php">
 					
 					<label class="form-check-label">Username</label>
-					<input type="text" name="UserName" class="form-control" placeholder="Username" >
+					<input type="text" name="UserName" class="form-control" placeholder="Username"required >
 					
 					<br>
 					<label class="form-check-label">Password</label>
-					<input type="password" name="Password" class="form-control" placeholder="Password" >
+					<input type="password" name="Password" class="form-control" placeholder="Password" required>
 					
 					<br>
 					<label class="form-check-label">Full Name</label>
-					<input type="text" name="FullName" class="form-control" placeholder="Full Name" >
+					<input type="text" name="FullName" class="form-control" placeholder="Full Name" required>
 					
 					<br>
 					<label class="form-check-label">Address</label>
-					<input type="text" name="Address" class="form-control" placeholder="Address" name="address" >
+					<input type="text" name="Address" class="form-control" placeholder="Address" name="address"required >
 					
 					<br>
 					<label class="form-check-label">Week of Days</label>
-					<select name="WeekOfDays" class="form-control" placeholder="Week of Days" >
+					<select name="WeekOfDays" class="form-control" placeholder="Week of Days" required>
 					<option value="Monday">Monday</option>
 					<option value="Tuesday">Tuesday</option>
 					<option value="Wednesday">Wednesday</option>
@@ -170,11 +170,11 @@ session_start();
 					
 					<br>
 					<label class="form-check-label">Time From</label>
-					<input type="time" name="TimeFrom" class="form-control" placeholder="Time From" >
+					<input type="time" name="TimeFrom" class="form-control" placeholder="Time From" required>
 
 					<br>
 					<label class="form-check-label">Time To</label>
-					<input type="time" name="TimeTo" class="form-control" placeholder="Time To" >
+					<input type="time" name="TimeTo" class="form-control" placeholder="Time To" required>
 					
 					<br>
 					<input type="submit" value="Register" class="btn btn-outline-success  btn-sm">
