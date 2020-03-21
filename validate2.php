@@ -23,7 +23,7 @@ $conn->query($sqlUse);
 
 $sql2 = "select * from admin where username = '$name2' and password = '$pass2';";
 
-$result2 = $conn->query($sql);
+$result2 = $conn->query($sql2);
 
 if ($result2->num_rows > 0)
 {
