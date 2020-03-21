@@ -143,7 +143,7 @@ if ($get_user->num_rows == 1)
                   ?>
                   </li>
 
-                <li><a href="#" class="w3-button w3-white w3-border w3-round-large">Log out</a></li>
+                <li><a href="LoginandRegister.php" class="w3-button w3-white w3-border w3-round-large">Log out</a></li>
                
               </ul>                                                                                                                                                                                                                                                                                         
             </nav>
