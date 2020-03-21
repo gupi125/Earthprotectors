@@ -159,7 +159,7 @@ table th{
                   <div class="dropdown-content">
                   <a href="userprofileC.php?username=<?php echo $_SESSION['username'] ?>">View Profile</a>      
                     <a href="editprofileViewC.php?username=<?php echo $_SESSION['username'] ?>">Edit Profile</a>      
-                    <a href="addMaterial.php">Add Material</a>
+                    <a href="addMaterial.php">Choose Material</a>
                     <a href="addedMaterial.php">Added Material</a>
                   </div>
                 </div></li>
@@ -242,7 +242,7 @@ table th{
 					}
         }
         
-        echo '<h4><b>Add Material</b></h4>';
+        echo '<h4><b>Choose Material</b></h4>';
         echo'<table width="1000">';
           echo'<thead>';
               echo'<tr>';

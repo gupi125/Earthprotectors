@@ -78,7 +78,7 @@ session_start();
 </div>
 
 
-<div class="logincss2">
+<div class="logincss1">
 	<div id="adminloginform" class="adminborder" style="display:none">
 	<h1>Login</h1>
 	<p>Login as:</p>	
