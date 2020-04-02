@@ -1,14 +1,18 @@
 <?php
 session_start();
-if (isset($_POST['mID'])){
-    $_SESSION['collector'] = $_POST['collectorUsername'];
-    //$collector = $_POST['collectorUsername'];
+
+if (isset($_POST['materialID'])){
+  $_SESSION['collector'] = $_POST['colUsername'];
+  $_SESSION['selectMID'] = $_POST['materialID'];
 }
-$_SESSION['collector'] = $_POST['collectorUsername'];
+$_SESSION['selectMID'] = $_POST['materialID'];
+$mID1 = $_SESSION['selectMID'];
+$_SESSION['collector'] = $_POST['colUsername'];
 $collector = $_SESSION['collector'];
-//$collector = $_POST['collectorUsername'];
+
 ?>
 <?php 
+
 include 'connection.php';
 //session_start();
 if (isset($_GET['username']))
@@ -52,12 +56,6 @@ if ($get_user->num_rows == 1)
   <link href="css/jquery.mb.YTPlayer.min.css" media="all" rel="stylesheet" type="text/css">
 
   <link rel="stylesheet" href="css/style.css">
-
-  <script type="text/javascript">
-			function showMessage(){
-				alert("Successful appointment!");
-			}
-		</script>
 
   <style>
     table {
@@ -119,10 +117,7 @@ table th{
     view.style.display = "none";
   }
 }
-function 
-  </script>
-
-
+</script>
 </head>
 
 <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
@@ -181,6 +176,8 @@ function
                   echo $_SESSION["username"];
                   ?>
                   </li>
+  
+
 
                 <li><a href="LoginandRegister.php" class="w3-button w3-white w3-border w3-round-large">Log out</a></li>
               </ul>                                                                                                                                                                                                                                                                                         
@@ -195,10 +192,7 @@ function
     
     </div>
 
-    <?php
-	    $mysqli = new mysqli("localhost","root", "", "earthprotectors") or die (mysqli_error($mysqli));
-	    $result = $mysqli->query("SELECT * FROM collector WHERE collector.username = '$collector' ") or die($mysqli->error);
-    ?>
+    
     
     
 
@@ -216,12 +210,17 @@ function
     <br>
     <br>
 
+    <?php
+	    $mysqli = new mysqli("localhost","root", "", "earthprotectors") or die (mysqli_error($mysqli));
+	    $result = $mysqli->query("SELECT * FROM collector WHERE collector.username = '$collector' ") or die($mysqli->error);
+    ?>
+
     <div id="container" align="center">
-    
-        <form id="submission" method="POST" action="proposedDate.php">
-        <?php ($row = $result->fetch_assoc())?>
-            
-            
+        
+        <form id="submission" method="POST" action="proposedDate.php"'>
+        <?php while($row = $result->fetch_assoc()){?>
+
+ 
             <div class="col-md-4">
             <label class="username">Collector Username</label>
             <input type="text" class="form-control"  name="colSubUsername" placeholder="Collector Username" required value="<?php echo $_SESSION['collector']; ?>"disabled></input>
@@ -247,15 +246,18 @@ function
             <input type="date" class="form-control"  name="ProposedDate" placeholder="Proposed Date" required  ></input>
             </div>
             <br>
-            <input class="btn btn-sm btn-primary" type="submit" value="Submit" name="submit" >
+
+            <input type="hidden" name="materialID" value="$mID1"/>
+            <input class="btn btn-sm btn-primary" type="submit" value="Submit" name="submit">
+
             <br>
+        <?php }?>
         </form>
         
     </div>
 
-    
 
-   
+    
     
     <div class="site-section site-section-sm site-blocks-1 border-0" data-aos="fade">
       <div class="container">
@@ -380,6 +382,29 @@ function
   <script src="js/jquery.mb.YTPlayer.min.js"></script>
 
 
+  <script src="js/main.js"></script>
+
+
+
+
+  <script src="js/main.js"></script>
+  <script>
+      $(document).ready(function(){
+          $('.DATEPICKER').datepicker({
+                autoclose: true;
+                startDate: new Date(),
+                daysOfWeekDisabled:"0,2,3,4,5,6"
+          })
+      });
+
+      $(document).ready(function(){
+          $('.DATEPICKER').datepicker({
+                autoclose: true;
+                startDate: new Date(),
+                daysOfWeekDisabled:"0,2,3,4,5,6"
+          })
+      });
+  </script>
 
 
   <script src="js/main.js"></script>

@@ -3,7 +3,8 @@
 session_start();
 
 $proposedDate = $_POST['ProposedDate'];
-$ColUsername = $_SESSION['collector'];;
+$ColUsername = $_SESSION['collector'];
+$materID = $_SESSION['selectMID'];
 
 
 
@@ -28,7 +29,7 @@ $conn->query($useDB);
 $submissionQry = " create table if not exists submission 
 (submissionID int(25) NOT NULL AUTO_INCREMENT PRIMARY KEY, 
 proposedDate varchar(25), actualDate varchar(25), weightInKg int(10), 
-pointsAwarded int(10), status varchar(25), collector varchar(25)) ";
+pointsAwarded int(10), status varchar(25), collector varchar(25), recycler varchar(25), materialID int(25)) ";
 if ($conn->query($submissionQry) == TRUE){
     echo " User Table created. ";
 }else{
@@ -36,7 +37,7 @@ if ($conn->query($submissionQry) == TRUE){
 }
 
 //create query
-$sql2 = "INSERT INTO submission values (null,'$proposedDate',null,0,0,'Proposed','$ColUsername');";
+$sql2 = "INSERT INTO submission values (null,'$proposedDate',null,0,0,'Proposed','$ColUsername','$_SESSION[username]','$materID')";
 echo "query " . $sql2;
 
 //execute Query
