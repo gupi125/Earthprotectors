@@ -1,8 +1,8 @@
 <?php
 session_start();
-$selectMID = $_POST['mID'];
-?>
-<?php 
+$selectMID = $_POST['mateID'];
+
+
 include 'connection.php';
 //session_start();
 if (isset($_GET['username']))
@@ -229,7 +229,7 @@ table th{
 			    if($result->num_rows > 0){
 					while ($row = mysqli_fetch_array($result)){
 					$colMaterialArr[] = array('name'=> $row['username'], 'addre' => $row['address'],
-					'we' => $row['week'], 'timeF' => $row['timeFrom'], 'timeT' => $row['timeTo']);
+					'we' => $row['week'], 'timeF' => $row['timeFrom'], 'timeT' => $row['timeTo'], 'mId' => $selectMID);
 					}
         }
         
@@ -254,7 +254,16 @@ table th{
             echo'<td>'. $colMaterialArr['timeT'].'</td>';
             echo'<td>'.
             '<form method="POST" action="submission.php">
+<<<<<<< HEAD
+<<<<<<< HEAD
+            <input type="hidden" name="colUsername" value="'.$colMaterialArr['name'].'"/>
+            <input type="hidden" name="materialID" value="'.$colMaterialArr['mId'].'"/>
+=======
             <input type="hidden" name="collectorUsername" value="'.$colMaterialArr['name'].'"/>
+>>>>>>> e909b04a8f20ba27569f5def7ae3222e22013b1d
+=======
+            <input type="hidden" name="collectorUsername" value="'.$colMaterialArr['name'].'"/>
+>>>>>>> e909b04a8f20ba27569f5def7ae3222e22013b1d
             <input type="submit" name="select" value="Select"/>
             </form></td>';
             echo'</tr>';
