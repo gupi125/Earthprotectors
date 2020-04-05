@@ -1,6 +1,6 @@
 <?php
 session_start();
-$selectMID = $_POST['mateID'];
+$selectMID = $_POST['mID'];
 
 
 include 'connection.php';
@@ -232,7 +232,7 @@ table th{
 					'we' => $row['week'], 'timeF' => $row['timeFrom'], 'timeT' => $row['timeTo'], 'mId' => $selectMID);
 					}
         }
-        echo'<form method="POST" action="updateProposedDate.php">';
+        echo'<form method="POST" action="submission.php">';
         echo'<table width="1000">';
           echo'<thead>';
               echo'<tr>';
@@ -241,7 +241,7 @@ table th{
                   echo'<th>Days of Week</th>';
                   echo'<th>Time From</th>';
                   echo'<th>Time To</th>';
-                  echo'<th>Proposed Date</th>';
+                 // echo'<th>Proposed Date</th>';
                   echo'<th></th>';
               echo'</tr>';
           echo'</thead>';
@@ -253,14 +253,15 @@ table th{
             echo'<td>'. $colMaterialArr['we'].'</td>';
             echo'<td>'. $colMaterialArr['timeF'].'</td>';
             echo'<td>'. $colMaterialArr['timeT'].'</td>';
-            echo'<td><input type="date" class="form-control"  name="ProposedDate[]" placeholder="Proposed Date"></input></td>';
+            //echo'<td><input type="date" class="form-control"  name="ProposedDate[]" placeholder="Proposed Date"></input></td>';
             
             echo'<td>';
             
             //echo'<input type="hidden" name="ppDate" value="'.$colMaterialArr['mId'].'"/>';
             echo'<input type="hidden" name="colUsername" value="'.$colMaterialArr['name'].'"/>';
             echo'<input type="hidden" name="materialID" value="'.$colMaterialArr['mId'].'"/>';
-            echo'<input type="checkbox" name="checked[]" value="'.$colMaterialArr['name'].'"/>';
+            echo'<input type="submit" name="submit" value="Select"/>';
+            //echo'<input type="checkbox" name="checked[]" value="'.$colMaterialArr['name'].'"/>';
 
             
             echo'</td>
@@ -271,7 +272,7 @@ table th{
           echo'</table>';
           echo'<br>';
           echo'<br>';
-          echo'<input type="submit" name="submit" value="Submit"/>';
+          
            echo'<form>'; 
               
           
