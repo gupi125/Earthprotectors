@@ -232,7 +232,7 @@ table th{
 					'we' => $row['week'], 'timeF' => $row['timeFrom'], 'timeT' => $row['timeTo'], 'mId' => $selectMID);
 					}
         }
-        echo'<form method="POST" action="submission.php">';
+        
         echo'<table width="1000">';
           echo'<thead>';
               echo'<tr>';
@@ -255,17 +255,14 @@ table th{
             echo'<td>'. $colMaterialArr['timeT'].'</td>';
             //echo'<td><input type="date" class="form-control"  name="ProposedDate[]" placeholder="Proposed Date"></input></td>';
             
-            echo'<td>';
-            
-            //echo'<input type="hidden" name="ppDate" value="'.$colMaterialArr['mId'].'"/>';
-            echo'<input type="hidden" name="colUsername" value="'.$colMaterialArr['name'].'"/>';
-            echo'<input type="hidden" name="materialID" value="'.$colMaterialArr['mId'].'"/>';
-            echo'<input type="submit" name="submit" value="Select"/>';
-            //echo'<input type="checkbox" name="checked[]" value="'.$colMaterialArr['name'].'"/>';
+            echo'<td>'.
+            '<form method="POST" action="submission.php">
 
-            
-            echo'</td>
-            </tr>';
+            <input type="hidden" name="colUsername" value="'.$colMaterialArr['name'].'"/>
+            <input type="hidden" name="materialID" value="'.$colMaterialArr['mId'].'"/>
+            <input type="submit" name="select" value="Select"/>
+            </form></td>';
+            echo'</tr>';
             
             
           } 
@@ -273,7 +270,7 @@ table th{
           echo'<br>';
           echo'<br>';
           
-           echo'<form>'; 
+           
               
           
           

@@ -223,7 +223,7 @@ table th{
             <br>
             <div class="col-md-4">
             <label class="timeto">Weight</label>
-            <input type="text" class="form-control"  name="weight" placeholder="Weight" required value="<?php echo $row['weightInKg']; ?> required" ></input>
+            <input type="text" class="form-control"  name="weight" placeholder="Weight" required value="<?php echo $row['weightInKg']; ?> " required></input>
             </div>
             <br>
             <!--
