@@ -1,3 +1,12 @@
+//<?php
+//$conn = new mysqli('localhost', 'root', '', 'earthprotectors');
+//session_start();
+
+//$material = $_GET['materialID'];
+//$get_material = $conn->query("SELECT * FROM material WHERE materialID = '$material'");
+//$material_data = $get_material->fetch_assoc();
+
+//?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -137,13 +146,13 @@
                 if($result->num_rows > 0){
                     while ($row = mysqli_fetch_array($result)){
                     $materialArr[] = array('mId'=> $row['materialID'], 'name' => $row['materialName'],
-                    'des' => $row['description'], 'points' => $row['pointsPerKg']);	
+                    'des' => $row['description'], 'pointsPerKg' => $row['pointsPerKg']);	
                     }
         }
         
 
-        
-        echo '<h4><b>View Material</b></h4>';
+        $id = 1;
+        echo '<h4><b>Material List</b></h4>';
         echo'<table width="1000">';
             echo'<thead>';
                 echo'<tr>';
@@ -156,10 +165,10 @@
 
             foreach($materialArr as $materialArr){
             echo'<tr>'; 
-                        echo'<td>'. $materialArr['mId'].'</td>';
+                        echo'<td>'.$materialArr['mId'].'</td>';
                         echo'<td>'. $materialArr['name'].'</td>';
                         echo'<td>'. $materialArr['des'].'</td>';
-            echo'<td>'. $materialArr['points'].'</td>';
+                        echo'<td>'. $materialArr['pointsPerKg'].'</td>';
             
             echo'</tr>';
             }  
@@ -167,9 +176,23 @@
             echo'</table>';
         
         ?>
+        <br><br>
         <input type="button" value="Add Material Type" onclick="location='addMtype.php'" />
-        <input type="button" value="Edit Material Type" onclick="location='editMtype.php'" />
-        <input type="button" value="Delete Material Type" onclick="location='deleteMtype.php'" />
+        <br><br>
+
+        <form method="POST" action="editMtype.php?material=<?php echo $materialID['materialID'] ?>">
+        <label>Enter Material ID :</label><br> 
+        <input type="text" name="materialID" value="<?php echo $materialID?>" /><br><br>
+        <input type="submit" name="update_material" value="Edit Material Type"/>
+        </form>
+        <br><br>
+
+        <form method="post" action="editMtype.php">
+        <label>Enter Material ID :</label><br> 
+        <input type="text" name="entermaterialID" value="" /><br><br>
+        <input type="submit" name="update_material" value="Edit Material Type"/>
+        </form>
+        <br><br>
         <br><br><br><br>
     </div>
 

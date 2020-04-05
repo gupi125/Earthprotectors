@@ -76,7 +76,7 @@
                 <li class="active"><a href="index3.php" class="nav-link text-left">Home</a></li>
                 <li><a href="maintainMaterial.php" class="nav-link text-left">Maintain Meterial Type</a></li>
                 <li><a href="viewhistory3.php" class="nav-link text-left">View History</a></li>
-
+                
                 <li><a href="LoginandRegister.php" class="w3-button w3-white w3-border w3-round-large">Log out</a></li>
                
               </ul>                                                                                                                                                                                                                                                                                         
