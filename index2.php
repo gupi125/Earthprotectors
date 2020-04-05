@@ -130,8 +130,8 @@ if ($get_user->num_rows == 1)
                   <div class="dropdown-content">
                   <a href="userprofileC.php?username=<?php echo $_SESSION['username'] ?>">View Profile</a>      
                     <a href="editprofileViewC.php?username=<?php echo $_SESSION['username'] ?>">Edit Profile</a>      
-                    <a href="addMaterial.php">Add Material</a>
-                    <a href="addedMaterial.php">Added Material</a>
+                    <a href="addMaterial.php">Choose Material</a>
+                    <a href="addedMaterial.php">View added Material</a>
                   </div>
                 </div></li>
                 
@@ -143,7 +143,7 @@ if ($get_user->num_rows == 1)
                   ?>
                   </li>
 
-                <li><a href="#" class="w3-button w3-white w3-border w3-round-large">Log out</a></li>
+                <li><a href="LoginandRegister.php" class="w3-button w3-white w3-border w3-round-large">Log out</a></li>
                
               </ul>                                                                                                                                                                                                                                                                                         
             </nav>

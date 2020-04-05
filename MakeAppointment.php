@@ -1,5 +1,4 @@
 <?php 
-
 include 'connection.php';
 session_start();
 if (isset($_GET['username']))
@@ -35,7 +34,7 @@ if ($get_user->num_rows == 1)
 
   <link rel="stylesheet" href="css/jquery.fancybox.min.css">
 
-  <!--<link rel="stylesheet" href="css/bootstrap-datepicker.css">-->
+  <link rel="stylesheet" href="css/bootstrap-datepicker.css">
 
   <link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
 
@@ -94,6 +93,17 @@ table th{
 .dropdown:hover .dropbtn {background-color: grey;}
   </style>
 
+  <script type="text/javascript">
+  function dashboard() {
+  var dashboard = document.getElementById("dashboard");
+  var view = document.getElementById("view");
+  if (view.style.display === "none") {
+    view.style.display = "block";
+  } else {
+    view.style.display = "none";
+  }
+}
+  </script>
 
 
 </head>
@@ -290,7 +300,34 @@ table th{
       </div>
     </div>
 
-
+    <div class="site-section bg-light">
+      <div class="container">
+        <div class="owl-carousel owl-slide-3 owl-slide">
+        
+          <blockquote class="testimony">
+            <img src="images/person_1.jpg" alt="Image">
+            <p>&ldquo;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero sapiente beatae, nemo quasi quo neque consequatur rem porro reprehenderit, a dignissimos unde ut enim fugiat deleniti quae placeat in cumque?&rdquo;</p>
+            <p class="small text-primary">&mdash; Collin Miller</p>
+          </blockquote>
+          <blockquote class="testimony">
+            <img src="images/person_2.jpg" alt="Image">
+            <p>&ldquo;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero sapiente beatae, nemo quasi quo neque consequatur rem porro reprehenderit, a dignissimos unde ut enim fugiat deleniti quae placeat in cumque?&rdquo;</p>
+            <p class="small text-primary">&mdash; Harley Perkins</p>
+          </blockquote>
+          <blockquote class="testimony">
+            <img src="images/person_3.jpg" alt="Image">
+            <p>&ldquo;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero sapiente beatae, nemo quasi quo neque consequatur rem porro reprehenderit, a dignissimos unde ut enim fugiat deleniti quae placeat in cumque?&rdquo;</p>
+            <p class="small text-primary">&mdash; Levi Morris</p>
+          </blockquote>
+          <blockquote class="testimony">
+            <img src="images/person_1.jpg" alt="Image">
+            <p>&ldquo;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero sapiente beatae, nemo quasi quo neque consequatur rem porro reprehenderit, a dignissimos unde ut enim fugiat deleniti quae placeat in cumque?&rdquo;</p>
+            <p class="small text-primary">&mdash; Allie Smith</p>
+          </blockquote>
+        
+        </div>
+      </div>
+    </div>
   
 
     

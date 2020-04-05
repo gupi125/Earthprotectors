@@ -1,7 +1,7 @@
 <?php 
 include 'connection.php'; 
 session_start();
-
+//
 $user = $_SESSION['username'];
 
 ?>
@@ -150,8 +150,8 @@ table th{
                   <div class="dropdown-content">
                   <a href="userprofileC.php?username=<?php echo $_SESSION['username'] ?>">View Profile</a>      
                     <a href="editprofileViewC.php?username=<?php echo $_SESSION['username'] ?>">Edit Profile</a>      
-                    <a href="addMaterial.php">Add Material</a>
-                    <a href="addedMaterial.php">Added Material</a>
+                    <a href="addMaterial.php">Choose Material</a>
+                    <a href="addedMaterial.php">View added Material</a>
                   </div>
                 </div></li>
                 
