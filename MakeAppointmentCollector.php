@@ -232,7 +232,7 @@ table th{
 					'we' => $row['week'], 'timeF' => $row['timeFrom'], 'timeT' => $row['timeTo'], 'mId' => $selectMID);
 					}
         }
-        
+        echo'<form method="POST" action="updateProposedDate.php">';
         echo'<table width="1000">';
           echo'<thead>';
               echo'<tr>';
@@ -241,6 +241,7 @@ table th{
                   echo'<th>Days of Week</th>';
                   echo'<th>Time From</th>';
                   echo'<th>Time To</th>';
+                  echo'<th>Proposed Date</th>';
                   echo'<th></th>';
               echo'</tr>';
           echo'</thead>';
@@ -252,24 +253,29 @@ table th{
             echo'<td>'. $colMaterialArr['we'].'</td>';
             echo'<td>'. $colMaterialArr['timeF'].'</td>';
             echo'<td>'. $colMaterialArr['timeT'].'</td>';
-            echo'<td>'.
-            '<form method="POST" action="submission.php">
-<<<<<<< HEAD
-<<<<<<< HEAD
-            <input type="hidden" name="colUsername" value="'.$colMaterialArr['name'].'"/>
-            <input type="hidden" name="materialID" value="'.$colMaterialArr['mId'].'"/>
-=======
-            <input type="hidden" name="collectorUsername" value="'.$colMaterialArr['name'].'"/>
->>>>>>> e909b04a8f20ba27569f5def7ae3222e22013b1d
-=======
-            <input type="hidden" name="collectorUsername" value="'.$colMaterialArr['name'].'"/>
->>>>>>> e909b04a8f20ba27569f5def7ae3222e22013b1d
-            <input type="submit" name="select" value="Select"/>
-            </form></td>';
-            echo'</tr>';
-          }  
-              
+            echo'<td><input type="date" class="form-control"  name="ProposedDate[]" placeholder="Proposed Date"></input></td>';
+            
+            echo'<td>';
+            
+            //echo'<input type="hidden" name="ppDate" value="'.$colMaterialArr['mId'].'"/>';
+            echo'<input type="hidden" name="colUsername" value="'.$colMaterialArr['name'].'"/>';
+            echo'<input type="hidden" name="materialID" value="'.$colMaterialArr['mId'].'"/>';
+            echo'<input type="checkbox" name="checked[]" value="'.$colMaterialArr['name'].'"/>';
+
+            
+            echo'</td>
+            </tr>';
+            
+            
+          } 
           echo'</table>';
+          echo'<br>';
+          echo'<br>';
+          echo'<input type="submit" name="submit" value="Submit"/>';
+           echo'<form>'; 
+              
+          
+          
         ?>
     </div>
 
