@@ -1,6 +1,7 @@
 <?php 
 include 'connection.php';
 session_start();
+
 if (isset($_GET['username']))
 {
 $user = $_GET['username'];
@@ -43,9 +44,26 @@ if ($get_user->num_rows == 1)
 
   <link rel="stylesheet" href="css/style.css">
   <style>
+  <style>
+    table {
+    border-collapse: collapse;
+    float: center;
+    background-color: #fefefe;
+}
+table  tr td {
+    border: 1px solid #000;
+    padding: 10px;
+    vertical-align: top;
+    text-align: left;
+}
+table th{
+    border: 1px solid #000;
+    padding: 10px;
+    vertical-align: top;
+    text-align: left;
+}
+
   .dropbtn {
-  
-  
   border: none;
   }
 
@@ -75,24 +93,6 @@ if ($get_user->num_rows == 1)
   .dropdown:hover .dropdown-content {display: block;}
 
   .dropdown:hover .dropbtn {background-color: grey;}
-
-  table {
-    border-collapse: collapse;
-    float: center;
-    background-color: #fefefe;
-}
-table  tr td {
-    border: 1px solid #000;
-    padding: 10px;
-    vertical-align: top;
-    text-align: left;
-}
-table th{
-    border: 1px solid #000;
-    padding: 10px;
-    vertical-align: top;
-    text-align: left;
-}
 </style>
 
 
@@ -138,8 +138,8 @@ table th{
             <nav class="site-navigation position-relative text-left" role="navigation">
               <ul class="site-menu main-menu js-clone-nav mx-auto d-none pl-0 d-lg-block border-none">
                 <li><a href="index2.php" class="nav-link text-left">Home</a></li>
-                <li><a href="recordMaterial.php" class="nav-link text-left">Record Material Submission</a></li>
-                <li class="active"><a href="viewhistory2.php" class="nav-link text-left">View History</a></li>
+                <li class="active"><a href="recordMaterial.php" class="nav-link text-left">Record Material Submission</a></li>
+                <li><a href="viewhistory2.php" class="nav-link text-left">View History</a></li>
                 <li><a href="contact2.php" class="nav-link text-left">Contact</a></li>
                 <li><div class="dropdown">
                   <button class="dropbtn">Manage User</button>
@@ -155,6 +155,7 @@ table th{
                 <li class="nav-link text-left" border="1px solid black">
                   <?php
                   //session_start();
+                  $username = $_SESSION["username"];
                   echo $_SESSION["username"];
                   ?>
                   </li>
@@ -178,7 +179,7 @@ table th{
          <div class="row justify-content-center text-center align-items-center">
            <div class="col-md-8">
              <span class="sub-title">Welcome to</span>
-             <h2>View History</h2>
+             <h2>Record Material</h2>
            </div>
          </div>
        </div>
@@ -187,69 +188,96 @@ table th{
      <br>
      <br>
 
-
      <div id="container" align="center">
-      
-      <?php				
-          //Connect to Database
-          $conn = new mysqli("localhost", "root", "", "");
+      <form action="recordMaterial.php" method="POST">
+      <input type="text" name="search" placeholder="Enter the username.">
+      <input type="submit" name="enter" value="Enter">
+      </form>
+    </div>
+
+    <br>
+    <br>
+    <div id="container" align="center">
+     <?php
+      //Connect to Database
+      $conn = new mysqli("localhost", "root", "", "earthprotectors") ;
                     
-          //create query
-          $sql = " create database if not exists earthprotectors";
+      //create query
+      //$sql = " create database if not exists earthprotectors";
 
-          //execute query
-          $conn->query($sql);
-                    
-          //use database
-          $useDB = " use earthprotectors";
-            
-          $conn->query($useDB);
-
-          $showquery = "SELECT * from material ";
-          
-
-          $result = $conn->query($showquery);
-          
-        //create array to store selected fields data
-				$materialArr = array();
-				//check if anything is showed from the database to set the data to array
-			    if($result->num_rows > 0){
-					while ($row = mysqli_fetch_array($result)){
-					$materialArr[] = array('mId'=> $row['materialID'], 'name' => $row['materialName'],
-					'des' => $row['description'], 'points' => $row['pointsPerKg']);	
-					}
-        }
+      //execute query
+      //$conn->query($sql);
+                
+      //use database
+      //$useDB = " use earthprotectors";
         
-        echo'<table width="1000">';
-          echo'<thead>';
-              echo'<tr>';
-                  echo'<th>Material ID</th>';
-                  echo'<th>Material Name</th>';
-                  echo'<th>Description</th>';
-                  echo'<th>Points Per Kg</th>';
-                  echo'<th></th>';
-              echo'</tr>';
-          echo'</thead>';
+      //$conn->query($useDB);
+     //$output='';
 
-          foreach($materialArr as $materialArr){
-            echo'<tr>'; 
-						echo'<td>'. $materialArr['mId'].'</td>';
-						echo'<td>'. $materialArr['name'].'</td>';
-						echo'<td>'. $materialArr['des'].'</td>';
-            echo'<td>'. $materialArr['points'].'</td>';
-           
-            echo'<td>'.		
-							'<form method="POST" action="colHistory.php">
-							<input type="hidden" name="mID" value="'.$materialArr['mId'].'"/>
-							<input type="submit" name="select" value="Select"/>
-							</form></td>';
-            echo'</tr>';
-          }  
-              
-          echo'</table>';
-        ?>
+     if(isset($_POST['search'])){
+       $searchq = $_POST['search'];
+       //$searchq = preg_replace("#[^0-9a-z]#i","",$searchq);
+
+       $query = "SELECT submission.submissionID, submission.proposedDate, submission.status, submission.materialID, submission.recycler, material.materialName  
+       FROM submission INNER JOIN material WHERE recycler LIKE '$searchq' AND submission.materialID = material.materialID AND submission.collector = '$username' AND submission.status = 'Proposed'";
+       $result = $conn->query($query);
+
       
-  </div>
+
+           $findSubmission = array();
+       //$count = num_rows($result);
+       if($result->num_rows > 0){
+         while($row = mysqli_fetch_array($result)){
+           $findSubmission[] = array('sId' => $row['submissionID'],
+           'proDate' => $row['proposedDate'],
+           'mateName' => $row['materialName'],
+           'sta' => $row['status'],
+           'recyc' => $row['recycler']);
+         }
+
+         echo'<table width="1000">';
+         echo'<thead>'; 
+         echo'<tr>';
+         echo'<th>Submission ID</th>';
+         echo'<th>Proposed Date</th>';
+         echo'<th>Material Name</th>';
+         echo'<th>Recycler</th>';
+         echo'<th>Status</th>';
+         echo'<th></th>';
+         echo'</tr>';
+         echo'</thead>';
+
+          
+           foreach($findSubmission as $findSubmission){
+           echo'<tr>';
+           echo'<td>'.$findSubmission['sId'].'</td>';
+           echo'<td>'.$findSubmission['proDate'].'</td>';
+           echo'<td>'.$findSubmission['mateName'].'</td>';
+           echo'<td>'.$findSubmission['recyc'].'</td>';
+           echo'<td>'.$findSubmission['sta'].'</td>';
+           echo'<td><form method="POST" action="updateSubmission.php">';
+           echo'<input type="hidden" name="submitID" value="'.$findSubmission['sId'].'"/>';
+           echo'<input type="submit" name="select" value="Select"/>';
+           echo'</form></td>';
+           echo'</tr>';
+           }
+           echo'</table>';
+           
+
+         
+       }else{
+         echo'No result!';
+         echo'<br>';
+         echo'<a href="newSubmission.php"><button type="button" name="create">Create a new submission!</button></a>';
+       }
+     }
+
+     ?>
+
+    </div>
+
+
+
     
     <div class="footer">
       <div class="container">

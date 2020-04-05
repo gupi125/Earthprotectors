@@ -1,4 +1,7 @@
 <?php 
+$selectMID = $_POST['mID'];
+
+
 include 'connection.php';
 session_start();
 if (isset($_GET['username']))
@@ -12,6 +15,7 @@ if ($get_user->num_rows == 1)
 }
        
 }?> 
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -42,10 +46,9 @@ if ($get_user->num_rows == 1)
   <link href="css/jquery.mb.YTPlayer.min.css" media="all" rel="stylesheet" type="text/css">
 
   <link rel="stylesheet" href="css/style.css">
+
   <style>
   .dropbtn {
-  
-  
   border: none;
   }
 
@@ -93,8 +96,35 @@ table th{
     vertical-align: top;
     text-align: left;
 }
-</style>
 
+.ddtf-processed th.recycler > select{
+    display:none;
+}
+.ddtf-processed th.recycler > div{
+    display:block !important;
+}
+
+.ddtf-processed th.collector > select{
+    display:none;
+}
+.ddtf-processed th.collector > div{
+    display:block !important;
+}
+
+.ddtf-processed th.weightTitle > select{
+    display:none;
+}
+.ddtf-processed th.weightTitle > div{
+    display:block !important;
+}
+
+.ddtf-processed th.pointsTitle > select{
+    display:none;
+}
+.ddtf-processed th.pointsTitle > div{
+    display:block !important;
+}
+</style>
 
 </head>
 
@@ -137,24 +167,20 @@ table th{
           <div class="mx-auto">
             <nav class="site-navigation position-relative text-left" role="navigation">
               <ul class="site-menu main-menu js-clone-nav mx-auto d-none pl-0 d-lg-block border-none">
-                <li><a href="index2.php" class="nav-link text-left">Home</a></li>
-                <li><a href="recordMaterial.php" class="nav-link text-left">Record Material Submission</a></li>
-                <li class="active"><a href="viewhistory2.php" class="nav-link text-left">View History</a></li>
-                <li><a href="contact2.php" class="nav-link text-left">Contact</a></li>
+                <li><a href="index.php" class="nav-link text-left">Home</a></li>
+                <li><a href="makeappointment.php" class="nav-link text-left">Make Appointment</a></li>
+                <li class="active"><a href="viewhistory.php" class="nav-link text-left">View History</a></li>
+                <li><a href="contact.php" class="nav-link text-left">Contact</a></li>
                 <li><div class="dropdown">
                   <button class="dropbtn">Manage User</button>
                   <div class="dropdown-content">
-                  <a href="userprofileC.php?username=<?php echo $_SESSION['username'] ?>">View Profile</a>      
-                    <a href="editprofileViewC.php?username=<?php echo $_SESSION['username'] ?>">Edit Profile</a>      
-                    <a href="addMaterial.php">Add Material</a>
-                    <a href="addedMaterial.php">Added Material</a>
+                  <a href="userprofileR.php?username=<?php echo $_SESSION['username'] ?>">View Profile</a>      
+                    <a href="editprofileViewR.php?username=<?php echo $_SESSION['username'] ?>">Edit Profile</a>
                   </div>
                 </div></li>
-                
-  
                 <li class="nav-link text-left" border="1px solid black">
                   <?php
-                  //session_start();
+  
                   echo $_SESSION["username"];
                   ?>
                   </li>
@@ -183,12 +209,11 @@ table th{
          </div>
        </div>
      </div>
-
      <br>
      <br>
 
 
-     <div id="container" align="center">
+     <div class="container" position="center">
       
       <?php				
           //Connect to Database
@@ -205,51 +230,88 @@ table th{
             
           $conn->query($useDB);
 
-          $showquery = "SELECT * from material ";
+          $showquery = "SELECT * from submission WHERE materialID = '$selectMID' AND recycler='$_SESSION[username]' ";
           
-
           $result = $conn->query($showquery);
+
+          echo'<table width="1000" id="mytable" class="table table-striped table-bordered">';
+          echo'<thead>';
+              echo'<tr>';
+                  echo'<th class="collector">Collector</th>';
+                  echo'<th class="recycler">Recycler</th>';
+                  echo'<th id="status">Status</th>';
+                  echo'<th class="weightTitle">Weight In KG</th>';
+                  echo'<th class="pointsTitle">Points Awarded</th>';
+                  echo'<th>Actual Date</th>';
+              echo'</tr>';
+          echo'</thead>';
           
         //create array to store selected fields data
 				$materialArr = array();
 				//check if anything is showed from the database to set the data to array
-			    if($result->num_rows > 0){
+        if($result->num_rows > 0){
 					while ($row = mysqli_fetch_array($result)){
-					$materialArr[] = array('mId'=> $row['materialID'], 'name' => $row['materialName'],
-					'des' => $row['description'], 'points' => $row['pointsPerKg']);	
-					}
-        }
-        
-        echo'<table width="1000">';
-          echo'<thead>';
-              echo'<tr>';
-                  echo'<th>Material ID</th>';
-                  echo'<th>Material Name</th>';
-                  echo'<th>Description</th>';
-                  echo'<th>Points Per Kg</th>';
-                  echo'<th></th>';
-              echo'</tr>';
-          echo'</thead>';
+                    $colreArr[] = array(
+                        'col'=> $row['collector'], 
+                        'recyc' => $row['recycler'],
+                        'sta' => $row['status'], 
+                        'weight' => $row['weightInKg'], 
+                        'points' => $row['pointsAwarded'], 
+                        'actual' => $row['actualDate']);
+                        
 
-          foreach($materialArr as $materialArr){
-            echo'<tr>'; 
-						echo'<td>'. $materialArr['mId'].'</td>';
-						echo'<td>'. $materialArr['name'].'</td>';
-						echo'<td>'. $materialArr['des'].'</td>';
-            echo'<td>'. $materialArr['points'].'</td>';
-           
-            echo'<td>'.		
-							'<form method="POST" action="colHistory.php">
-							<input type="hidden" name="mID" value="'.$materialArr['mId'].'"/>
-							<input type="submit" name="select" value="Select"/>
-							</form></td>';
+					}
+                $sumWeight = 0;
+                $sumPoints = 0;
+              foreach($colreArr as $colreArr){
+                echo'<tr>'; 
+            echo'<td>'. $colreArr['col'].'</td>';
+            echo'<td>'. $colreArr['recyc'].'</td>';
+                    echo'<td>'. $colreArr['sta'].'</td>';
+                    echo'<td class="weight">'. $colreArr['weight'].'</td>';
+                    echo'<td class="points">'. $colreArr['points'].'</td>';
+                    echo'<td>'. $colreArr['actual'].'</td>';
+                echo'</tr>';
+                $sumWeight += $colreArr['weight'];
+                $sumPoints += $colreArr['points'];
+
+              }
+              echo'<tfoot>';
+            echo'<tr>';
+            echo'<th colspan="3" style="text-align:right">Total:</th>';
+            echo'<th><span class="totalWeight">'.$sumWeight.'</span></th>';
+            echo'<th class="totalPoints">'.$sumPoints.'</th>';
             echo'</tr>';
-          }  
-              
-          echo'</table>';
+            echo'</tfoot>';
+              echo'</table>';
+              echo'<br>';
+              echo'<br>';
+
+ 
+          
+        }else{
+            echo'No Submission Record!';
+        }
         ?>
-      
   </div>
+  <br>
+  <br>
+  
+  <script src="//code.jquery.com/jquery-1.11.3.min.js"></script> 
+<script src="dynamitable.jquery.min.js"></script>
+<script src="js/dataTables.bootstrap4.min.js"></script>
+<script src="js/jquery.dataTables.min.js"></script>
+<script src="jquery.tableTotal.js"></script>
+<script src="jquery-3.4.1.min.js"></script>
+
+  <script src="js/ddtf.js"></script>
+  <script language="javascript" type="text/javascript">
+    var table = $('#mytable').ddTableFilter();
+
+  </script>
+
+
+
     
     <div class="footer">
       <div class="container">

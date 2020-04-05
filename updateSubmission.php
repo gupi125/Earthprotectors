@@ -1,6 +1,14 @@
 <?php 
 include 'connection.php';
 session_start();
+if(isset($_POST['submitID'])){
+  $_SESSION['selectSID'] = $_POST['submitID'];
+
+}
+$_SESSION['selectSID'] = $_POST['submitID'];
+$selectSID = $_SESSION['selectSID'];
+
+
 if (isset($_GET['username']))
 {
 $user = $_GET['username'];
@@ -43,9 +51,26 @@ if ($get_user->num_rows == 1)
 
   <link rel="stylesheet" href="css/style.css">
   <style>
+  <style>
+    table {
+    border-collapse: collapse;
+    float: center;
+    background-color: #fefefe;
+}
+table  tr td {
+    border: 1px solid #000;
+    padding: 10px;
+    vertical-align: top;
+    text-align: left;
+}
+table th{
+    border: 1px solid #000;
+    padding: 10px;
+    vertical-align: top;
+    text-align: left;
+}
+
   .dropbtn {
-  
-  
   border: none;
   }
 
@@ -75,24 +100,6 @@ if ($get_user->num_rows == 1)
   .dropdown:hover .dropdown-content {display: block;}
 
   .dropdown:hover .dropbtn {background-color: grey;}
-
-  table {
-    border-collapse: collapse;
-    float: center;
-    background-color: #fefefe;
-}
-table  tr td {
-    border: 1px solid #000;
-    padding: 10px;
-    vertical-align: top;
-    text-align: left;
-}
-table th{
-    border: 1px solid #000;
-    padding: 10px;
-    vertical-align: top;
-    text-align: left;
-}
 </style>
 
 
@@ -138,8 +145,8 @@ table th{
             <nav class="site-navigation position-relative text-left" role="navigation">
               <ul class="site-menu main-menu js-clone-nav mx-auto d-none pl-0 d-lg-block border-none">
                 <li><a href="index2.php" class="nav-link text-left">Home</a></li>
-                <li><a href="recordMaterial.php" class="nav-link text-left">Record Material Submission</a></li>
-                <li class="active"><a href="viewhistory2.php" class="nav-link text-left">View History</a></li>
+                <li class="active"><a href="recordMaterial.php" class="nav-link text-left">Record Material Submission</a></li>
+                <li><a href="viewhistory2.php" class="nav-link text-left">View History</a></li>
                 <li><a href="contact2.php" class="nav-link text-left">Contact</a></li>
                 <li><div class="dropdown">
                   <button class="dropbtn">Manage User</button>
@@ -178,78 +185,62 @@ table th{
          <div class="row justify-content-center text-center align-items-center">
            <div class="col-md-8">
              <span class="sub-title">Welcome to</span>
-             <h2>View History</h2>
+             <h2>Record Material</h2>
            </div>
          </div>
        </div>
      </div>
 
-     <br>
-     <br>
 
+    <br>
+    <br>
 
-     <div id="container" align="center">
-      
-      <?php				
-          //Connect to Database
-          $conn = new mysqli("localhost", "root", "", "");
-                    
-          //create query
-          $sql = " create database if not exists earthprotectors";
+    <?php
+	    $mysqli = new mysqli("localhost","root", "", "earthprotectors") or die (mysqli_error($mysqli));
+	    $result = $mysqli->query("SELECT * FROM submission INNER JOIN material WHERE submissionID = '$selectSID' AND material.materialID = submission.materialID ") or die($mysqli->error);
+    ?>
 
-          //execute query
-          $conn->query($sql);
-                    
-          //use database
-          $useDB = " use earthprotectors";
+    <div id="container" align="center">
+    <?php while($row = $result->fetch_assoc()) {?> 
+    <form method="POST" action="updatePHP.php"'>
+    
             
-          $conn->query($useDB);
+            
+            <div class="col-md-4">
+            <label class="username">Submission ID</label>
+            <input type="text" class="form-control"  name="subID" placeholder="Submission ID" required value="<?php echo $selectSID ; ?>" disabled></input>
+            </div>
+            <br>
+            <div class="col-md-4">
+            <label class="daysOfWeek">Material Name</label>
+            <input type="text" class="form-control"  name="materialName" placeholder="Material Name" required value="<?php echo $row['materialName']; ?>" ></input>
+            </div>
+            <br>
+            <div class="col-md-4">
+            <label class="timefrom">Recycler</label>
+            <input type="text" class="form-control"  name="recycler" placeholder="Recycler" required value="<?php echo $row['recycler']; ?>" disabled></input>
+            </div>
+            <br>
+            <div class="col-md-4">
+            <label class="timeto">Weight</label>
+            <input type="text" class="form-control"  name="weight" placeholder="Weight" required value="<?php echo $row['weightInKg']; ?> required" ></input>
+            </div>
+            <br>
+            <!--
+            <div class="col-md-4">
+            <label class="timeto">Actual Date</label>
+            <input type="date" class="form-control" id="actualDate"  name="actualDate" placeholder="Actual Date" required ></input>
+            </div>
+            <br>-->
+            <input class="btn btn-sm btn-primary" type="submit" value="Submit" name="submit">
+            <br>
+        </form>
+    <?php } ?>
 
-          $showquery = "SELECT * from material ";
-          
+    </div>
 
-          $result = $conn->query($showquery);
-          
-        //create array to store selected fields data
-				$materialArr = array();
-				//check if anything is showed from the database to set the data to array
-			    if($result->num_rows > 0){
-					while ($row = mysqli_fetch_array($result)){
-					$materialArr[] = array('mId'=> $row['materialID'], 'name' => $row['materialName'],
-					'des' => $row['description'], 'points' => $row['pointsPerKg']);	
-					}
-        }
-        
-        echo'<table width="1000">';
-          echo'<thead>';
-              echo'<tr>';
-                  echo'<th>Material ID</th>';
-                  echo'<th>Material Name</th>';
-                  echo'<th>Description</th>';
-                  echo'<th>Points Per Kg</th>';
-                  echo'<th></th>';
-              echo'</tr>';
-          echo'</thead>';
 
-          foreach($materialArr as $materialArr){
-            echo'<tr>'; 
-						echo'<td>'. $materialArr['mId'].'</td>';
-						echo'<td>'. $materialArr['name'].'</td>';
-						echo'<td>'. $materialArr['des'].'</td>';
-            echo'<td>'. $materialArr['points'].'</td>';
-           
-            echo'<td>'.		
-							'<form method="POST" action="colHistory.php">
-							<input type="hidden" name="mID" value="'.$materialArr['mId'].'"/>
-							<input type="submit" name="select" value="Select"/>
-							</form></td>';
-            echo'</tr>';
-          }  
-              
-          echo'</table>';
-        ?>
-      
-  </div>
+
     
     <div class="footer">
       <div class="container">

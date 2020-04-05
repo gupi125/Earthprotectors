@@ -75,6 +75,24 @@ if ($get_user->num_rows == 1)
   .dropdown:hover .dropdown-content {display: block;}
 
   .dropdown:hover .dropbtn {background-color: grey;}
+
+  table {
+    border-collapse: collapse;
+    float: center;
+    background-color: #fefefe;
+}
+table  tr td {
+    border: 1px solid #000;
+    padding: 10px;
+    vertical-align: top;
+    text-align: left;
+}
+table th{
+    border: 1px solid #000;
+    padding: 10px;
+    vertical-align: top;
+    text-align: left;
+}
 </style>
 
 </head>
@@ -160,6 +178,75 @@ if ($get_user->num_rows == 1)
          </div>
        </div>
      </div>
+     <br>
+     <br>
+
+
+     <div id="container" align="center">
+      
+      <?php				
+          //Connect to Database
+          $conn = new mysqli("localhost", "root", "", "");
+                    
+          //create query
+          $sql = " create database if not exists earthprotectors";
+
+          //execute query
+          $conn->query($sql);
+                    
+          //use database
+          $useDB = " use earthprotectors";
+            
+          $conn->query($useDB);
+
+          $showquery = "SELECT * from material ";
+          
+
+          $result = $conn->query($showquery);
+          
+        //create array to store selected fields data
+				$materialArr = array();
+				//check if anything is showed from the database to set the data to array
+			    if($result->num_rows > 0){
+					while ($row = mysqli_fetch_array($result)){
+					$materialArr[] = array('mId'=> $row['materialID'], 'name' => $row['materialName'],
+					'des' => $row['description'], 'points' => $row['pointsPerKg']);	
+					}
+        }
+        
+        echo'<table width="1000">';
+          echo'<thead>';
+              echo'<tr>';
+                  echo'<th>Material ID</th>';
+                  echo'<th>Material Name</th>';
+                  echo'<th>Description</th>';
+                  echo'<th>Points Per Kg</th>';
+                  echo'<th></th>';
+              echo'</tr>';
+          echo'</thead>';
+
+          foreach($materialArr as $materialArr){
+            echo'<tr>'; 
+						echo'<td>'. $materialArr['mId'].'</td>';
+						echo'<td>'. $materialArr['name'].'</td>';
+						echo'<td>'. $materialArr['des'].'</td>';
+            echo'<td>'. $materialArr['points'].'</td>';
+           
+            echo'<td>'.		
+							'<form method="POST" action="reHistory.php">
+							<input type="hidden" name="mID" value="'.$materialArr['mId'].'"/>
+							<input type="submit" name="select" value="Select"/>
+							</form></td>';
+            echo'</tr>';
+          }  
+              
+          echo'</table>';
+        ?>
+      
+  </div>
+
+
+
     
     <div class="footer">
       <div class="container">
