@@ -1,3 +1,4 @@
+
 <?php 
 $selectMID = $_POST['mID'];
 
@@ -45,6 +46,7 @@ if ($get_user->num_rows == 1)
   <link href="css/jquery.mb.YTPlayer.min.css" media="all" rel="stylesheet" type="text/css">
 
   <link rel="stylesheet" href="css/style.css">
+  
   <style>
   .dropbtn {
   
@@ -78,6 +80,52 @@ if ($get_user->num_rows == 1)
   .dropdown:hover .dropdown-content {display: block;}
 
   .dropdown:hover .dropbtn {background-color: grey;}
+
+  table {
+    border-collapse: collapse;
+    float: center;
+    background-color: #fefefe;
+}
+table  tr td {
+    border: 1px solid #000;
+    padding: 10px;
+    vertical-align: top;
+    text-align: left;
+}
+table th{
+    border: 1px solid #000;
+    padding: 10px;
+    vertical-align: top;
+    text-align: left;
+}
+
+.ddtf-processed th.recycler > select{
+    display:none;
+}
+.ddtf-processed th.recycler > div{
+    display:block !important;
+}
+
+.ddtf-processed th.collector > select{
+    display:none;
+}
+.ddtf-processed th.collector > div{
+    display:block !important;
+}
+
+.ddtf-processed th.weightTitle > select{
+    display:none;
+}
+.ddtf-processed th.weightTitle > div{
+    display:block !important;
+}
+
+.ddtf-processed th.pointsTitle > select{
+    display:none;
+}
+.ddtf-processed th.pointsTitle > div{
+    display:block !important;
+}
 </style>
 
 
@@ -172,7 +220,7 @@ if ($get_user->num_rows == 1)
      <br>
      <br>
 
-     <div id="container" align="center">
+     <div class="container" position="center">
       
       <?php				
           //Connect to Database
@@ -189,15 +237,27 @@ if ($get_user->num_rows == 1)
             
           $conn->query($useDB);
 
-          $showquery = "SELECT * from submission WHERE materialID = '$selectMID' AND collector = $_SESSION[username]";
+          $showquery = "SELECT * from submission WHERE materialID = '$selectMID' AND collector = '$_SESSION[username]'";
           
 
           $result = $conn->query($showquery);
           
+          echo'<table width="1000" id="mytable" class="table table-striped table-bordered">';
+          echo'<thead>';
+              echo'<tr>';
+                  echo'<th class="collector">Collector</th>';
+                  echo'<th class="recycler">Recycler</th>';
+                  echo'<th id="status">Status</th>';
+                  echo'<th class="weightTitle">Weight In KG</th>';
+                  echo'<th class="pointsTitle">Points Awarded</th>';
+                  echo'<th>Actual Date</th>';
+              echo'</tr>';
+          echo'</thead>';
+          
         //create array to store selected fields data
 				$materialArr = array();
 				//check if anything is showed from the database to set the data to array
-			    if($result->num_rows > 0){
+        if($result->num_rows > 0){
 					while ($row = mysqli_fetch_array($result)){
                     $colreArr[] = array(
                         'col'=> $row['collector'], 
@@ -205,35 +265,38 @@ if ($get_user->num_rows == 1)
                         'sta' => $row['status'], 
                         'weight' => $row['weightInKg'], 
                         'points' => $row['pointsAwarded'], 
-                        'actual' => $row['actualDate']);	
+                        'actual' => $row['actualDate']);
+                        
+
 					}
-                
-        
-        echo'<table width="1000">';
-          echo'<thead>';
-              echo'<tr>';
-                  echo'<th>Collector</th>';
-                  echo'<th>Recycler</th>';
-                  echo'<th>Status</th>';
-                  echo'<th>Weight In KG</th>';
-                  echo'<th>Points Awarded</th>';
-                  echo'<th>Actual Date</th>';
-              echo'</tr>';
-          echo'</thead>';
+                $sumWeight = 0;
+                $sumPoints = 0;
+              foreach($colreArr as $colreArr){
+                echo'<tr>'; 
+            echo'<td>'. $colreArr['col'].'</td>';
+            echo'<td>'. $colreArr['recyc'].'</td>';
+                    echo'<td>'. $colreArr['sta'].'</td>';
+                    echo'<td class="weight">'. $colreArr['weight'].'</td>';
+                    echo'<td class="points">'. $colreArr['points'].'</td>';
+                    echo'<td>'. $colreArr['actual'].'</td>';
+                echo'</tr>';
+                $sumWeight += $colreArr['weight'];
+                $sumPoints += $colreArr['points'];
 
-          foreach($colreArr as $colreArr){
-            echo'<tr>'; 
-				echo'<td>'. $colreArr['col'].'</td>';
-				echo'<td>'. $colreArr['recyc'].'</td>';
-                echo'<td>'. $colreArr['sta'].'</td>';
-                echo'<td>'. $colreArr['weight'].'</td>';
-                echo'<td>'. $colreArr['points'].'</td>';
-                echo'<td>'. $colreArr['actual'].'</td>';
+              }
+              echo'<tfoot>';
+            echo'<tr>';
+            echo'<th colspan="3" style="text-align:right">Total:</th>';
+            echo'<th><span class="totalWeight">'.$sumWeight.'</span></th>';
+            echo'<th class="totalPoints">'.$sumPoints.'</th>';
             echo'</tr>';
-          } 
-          echo'</table>';
+            echo'</tfoot>';
+              echo'</table>';
+              echo'<br>';
+              echo'<br>';
 
-
+ 
+          
         }else{
             echo'No Submission Record!';
         }
@@ -242,26 +305,18 @@ if ($get_user->num_rows == 1)
   <br>
   <br>
 
-<div id="container" align="center">
-  <?php
-  $total = "SELECT sum(weightInKg), sum(pointsAwarded) FROM submission WHERE materialID = '$selectMID'";
-  $totResult = $conn->query($total);
-  while ($rows = mysqli_fetch_array($totResult)) {
-  echo'<table>';
-  echo'<thead>';
-  echo'<tr>';
-  echo'<th>Total Weights</th>';
-  echo'<th>Total Points</th>';
-  echo'</tr>';
-  echo'</thead>';
-  echo'<tr>';
-  echo'<td>'.$rows['sum(weightInKg)'].'</td>';
-  echo'<td>'.$rows['sum(pointsAwarded)'].'</td>';
-  echo'</tr>';
-  echo'</table>';
-  }
-  ?>
-</div>
+  <script src="//code.jquery.com/jquery-1.11.3.min.js"></script> 
+<script src="dynamitable.jquery.min.js"></script>
+<script src="js/dataTables.bootstrap4.min.js"></script>
+<script src="js/jquery.dataTables.min.js"></script>
+<script src="jquery.tableTotal.js"></script>
+<script src="jquery-3.4.1.min.js"></script>
+
+  <script src="js/ddtf.js"></script>
+  <script language="javascript" type="text/javascript">
+    var table = $('#mytable').ddTableFilter();
+
+  </script>
 
 
 
@@ -325,5 +380,4 @@ if ($get_user->num_rows == 1)
   <script src="js/main.js"></script>
 
 </body>
-
 </html>

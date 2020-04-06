@@ -1,17 +1,6 @@
-<?php 
-include 'connection.php';
-session_start();
-if (isset($_GET['username']))
-{
-$user = $_GET['username'];
-$get_user = $mysqli->query("SELECT * FROM recycler WHERE username = '$user'");
-if ($get_user->num_rows == 1)
-{
-    $profile_data = $get_user->fetch_assoc();
-           
-}
-       
-}?> 
+<?php
+$selectMID = $_POST['mID'];
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -22,6 +11,8 @@ if ($get_user->num_rows == 1)
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+  
   <link href="https://fonts.googleapis.com/css?family=Cinzel:400,700|Montserrat:400,700|Roboto&display=swap" rel="stylesheet"> 
 
   <link rel="stylesheet" href="fonts/icomoon/style.css">
@@ -42,40 +33,11 @@ if ($get_user->num_rows == 1)
   <link href="css/jquery.mb.YTPlayer.min.css" media="all" rel="stylesheet" type="text/css">
 
   <link rel="stylesheet" href="css/style.css">
+
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/dataTables.bootstrap4.min.css">
+
   <style>
-  .dropbtn {
-  
-  
-  border: none;
-  }
-
-  .dropdown {
-    position: relative;
-    display: inline-block;
-  }
-
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-  }
-
-  .dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-  }
-
-  .dropdown-content a:hover {background-color: #ddd;}
-
-  .dropdown:hover .dropdown-content {display: block;}
-
-  .dropdown:hover .dropbtn {background-color: grey;}
-
   table {
     border-collapse: collapse;
     float: center;
@@ -93,7 +55,36 @@ table th{
     vertical-align: top;
     text-align: left;
 }
-</style>
+
+.ddtf-processed th.recycler > select{
+    display:none;
+}
+.ddtf-processed th.recycler > div{
+    display:block !important;
+}
+
+.ddtf-processed th.collector > select{
+    display:none;
+}
+.ddtf-processed th.collector > div{
+    display:block !important;
+}
+
+.ddtf-processed th.weightTitle > select{
+    display:none;
+}
+.ddtf-processed th.weightTitle > div{
+    display:block !important;
+}
+
+.ddtf-processed th.pointsTitle > select{
+    display:none;
+}
+.ddtf-processed th.pointsTitle > div{
+    display:block !important;
+}
+  </style>
+
 
 
 </head>
@@ -117,7 +108,7 @@ table th{
       <div class="container">
         <div class="row align-items-center">
           <div class="col-12 text-center">
-            <a href="index.php" class="site-logo">
+            <a href="index3.php" class="site-logo">
               <img src="images/pinterest_profile_image3.jpg" alt="Image" class="img-fluid">
             </a>
           </div>
@@ -136,30 +127,13 @@ table th{
           
           <div class="mx-auto">
             <nav class="site-navigation position-relative text-left" role="navigation">
-              <ul class="site-menu main-menu js-clone-nav mx-auto d-none pl-0 d-lg-block border-none">
-                <li><a href="index2.php" class="nav-link text-left">Home</a></li>
-                <li><a href="recordMaterial.php" class="nav-link text-left">Record Material Submission</a></li>
-                <li class="active"><a href="viewhistory2.php" class="nav-link text-left">View History</a></li>
-                <li><a href="contact2.php" class="nav-link text-left">Contact</a></li>
-                <li><div class="dropdown">
-                  <button class="dropbtn">Manage User</button>
-                  <div class="dropdown-content">
-                  <a href="userprofileC.php?username=<?php echo $_SESSION['username'] ?>">View Profile</a>      
-                    <a href="editprofileViewC.php?username=<?php echo $_SESSION['username'] ?>">Edit Profile</a>      
-                    <a href="addMaterial.php">Add Material</a>
-                    <a href="addedMaterial.php">Added Material</a>
-                  </div>
-                </div></li>
-                
-  
-                <li class="nav-link text-left" border="1px solid black">
-                  <?php
-                  //session_start();
-                  echo $_SESSION["username"];
-                  ?>
-                  </li>
+              <ul class="site-menu main-menu js-clone-nav mx-auto d-none pl-0 d-lg-block border-none" style="font-size: .8rem;">
+                <li ><a href="index3.php" class="nav-link text-left" style="font-size: .8rem;">Home</a></li>
+                <li><a href="#" class="nav-link text-left" style="font-size: .8rem;">Maintain Meterial Type</a></li>
+                <li class="active"><a href="viewhistory3.php" class="nav-link text-left" style="font-size: .8rem;">View History</a></li>
 
-                <li><a href="LoginandRegister.php" class="w3-button w3-white w3-border w3-round-large">Log out</a></li>
+                <li><a href="LoginandRegister.php" class="w3-button w3-white w3-border w3-round-large" style="font-size: .8rem;">Log out</a></li>
+               
               </ul>                                                                                                                                                                                                                                                                                         
             </nav>
 
@@ -173,22 +147,31 @@ table th{
     </div>
 
     
-    <div class="hero-2" style="background-image: url('images/envir2.jpeg');">
-      <div class="container">
-         <div class="row justify-content-center text-center align-items-center">
-           <div class="col-md-8">
-             <span class="sub-title">Welcome to</span>
-             <h2>View History</h2>
-           </div>
-         </div>
-       </div>
-     </div>
+    <div class="owl-carousel hero-slide owl-style">
+      <div class="intro-section container" style="background-image: url('images/envir1.jpg');">
+        <div class="row justify-content-center text-center align-items-center">
+          <div class="col-md-8">
+            <span class="sub-title">Welcome to</span>
+            <h1>Earth Protectors</h1>
+          </div>
+        </div>
+      </div>
 
-     <br>
-     <br>
+      <div class="intro-section container" style="background-image: url('images/envir2.jpeg');">
+        <div class="row justify-content-center text-center align-items-center">
+          <div class="col-md-8">
+            <span class="sub-title">Ready to</span>
+            <h1>Save the World?</h1>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <br>
+    <br>
 
 
-     <div id="container" align="center">
+    <div class="container" position="center">
       
       <?php				
           //Connect to Database
@@ -205,51 +188,86 @@ table th{
             
           $conn->query($useDB);
 
-          $showquery = "SELECT * from material ";
+          $showquery = "SELECT * from submission WHERE materialID = '$selectMID'";
           
 
           $result = $conn->query($showquery);
+
+          echo'<table width="1000" id="mytable" class="table table-striped table-bordered">';
+          echo'<thead>';
+              echo'<tr>';
+                  echo'<th class="collector">Collector</th>';
+                  echo'<th class="recycler">Recycler</th>';
+                  echo'<th id="status">Status</th>';
+                  echo'<th class="weightTitle">Weight In KG</th>';
+                  echo'<th class="pointsTitle">Points Awarded</th>';
+                  echo'<th>Actual Date</th>';
+              echo'</tr>';
+          echo'</thead>';
           
         //create array to store selected fields data
 				$materialArr = array();
 				//check if anything is showed from the database to set the data to array
 			    if($result->num_rows > 0){
 					while ($row = mysqli_fetch_array($result)){
-					$materialArr[] = array('mId'=> $row['materialID'], 'name' => $row['materialName'],
-					'des' => $row['description'], 'points' => $row['pointsPerKg']);	
-					}
-        }
-        
-        echo'<table width="1000">';
-          echo'<thead>';
-              echo'<tr>';
-                  echo'<th>Material ID</th>';
-                  echo'<th>Material Name</th>';
-                  echo'<th>Description</th>';
-                  echo'<th>Points Per Kg</th>';
-                  echo'<th></th>';
-              echo'</tr>';
-          echo'</thead>';
+                    $colreArr[] = array(
+                        'col'=> $row['collector'], 
+                        'recyc' => $row['recycler'],
+                        'sta' => $row['status'], 
+                        'weight' => $row['weightInKg'], 
+                        'points' => $row['pointsAwarded'], 
+                        'actual' => $row['actualDate']);
+                        
 
-          foreach($materialArr as $materialArr){
-            echo'<tr>'; 
-						echo'<td>'. $materialArr['mId'].'</td>';
-						echo'<td>'. $materialArr['name'].'</td>';
-						echo'<td>'. $materialArr['des'].'</td>';
-            echo'<td>'. $materialArr['points'].'</td>';
-           
-            echo'<td>'.		
-							'<form method="POST" action="colHistory.php">
-							<input type="hidden" name="mID" value="'.$materialArr['mId'].'"/>
-							<input type="submit" name="select" value="Select"/>
-							</form></td>';
+					}
+                $sumWeight = 0;
+                $sumPoints = 0;
+              foreach($colreArr as $colreArr){
+                echo'<tr>'; 
+            echo'<td>'. $colreArr['col'].'</td>';
+            echo'<td>'. $colreArr['recyc'].'</td>';
+                    echo'<td>'. $colreArr['sta'].'</td>';
+                    echo'<td class="weight">'. $colreArr['weight'].'</td>';
+                    echo'<td class="points">'. $colreArr['points'].'</td>';
+                    echo'<td>'. $colreArr['actual'].'</td>';
+                echo'</tr>';
+                $sumWeight += $colreArr['weight'];
+                $sumPoints += $colreArr['points'];
+
+              }
+              echo'<tfoot>';
+            echo'<tr>';
+            echo'<th colspan="3" style="text-align:right">Total:</th>';
+            echo'<th><span class="totalWeight">'.$sumWeight.'</span></th>';
+            echo'<th class="totalPoints">'.$sumPoints.'</th>';
             echo'</tr>';
-          }  
-              
-          echo'</table>';
+            echo'</tfoot>';
+              echo'</table>';
+              echo'<br>';
+              echo'<br>';
+
+ 
+          
+        }else{
+            echo'No Submission Record!';
+        }
         ?>
-      
   </div>
+  <script src="//code.jquery.com/jquery-1.11.3.min.js"></script> 
+<script src="dynamitable.jquery.min.js"></script>
+<script src="js/dataTables.bootstrap4.min.js"></script>
+<script src="js/jquery.dataTables.min.js"></script>
+<script src="jquery.tableTotal.js"></script>
+<script src="jquery-3.4.1.min.js"></script>
+
+  <script src="js/ddtf.js"></script>
+  <script language="javascript" type="text/javascript">
+    var table = $('#mytable').ddTableFilter();
+
+  </script>
+  
+
+          
     
     <div class="footer">
       <div class="container">
@@ -269,7 +287,7 @@ table th{
             <div class="copyright">
                 <p>
                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | EarthProtectors <i class="icon-heart text-danger" aria-hidden="true"></i></a>
+                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | EarthProtectors <i class="icon-heart text-danger" aria-hidden="true"></i> </a>
                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     </p>
 

@@ -22,7 +22,7 @@ echo " Connected Successfully";
 //create colmaterial table
 $registerDB = " use EarthProtectors ";
 $conn->query($registerDB);
-$colmaterialQry = " create table if not exists colmaterial (materialID int(25) PRIMARY KEY , username varchar(25))";
+$colmaterialQry = " create table if not exists colmaterial (materialID int(25) , username varchar(25))";
 if ($conn->query($colmaterialQry) == TRUE){
     echo " User Table created. ";
 }else{

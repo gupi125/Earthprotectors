@@ -1,14 +1,16 @@
 <?php
 session_start();
 
-if (isset($_POST['materialID'])){
+/*
+if (isset($_POST['colUsername'] )){
   $_SESSION['collector'] = $_POST['colUsername'];
   $_SESSION['selectMID'] = $_POST['materialID'];
-}
-$_SESSION['selectMID'] = $_POST['materialID'];
-$mID1 = $_SESSION['selectMID'];
+}*/
 $_SESSION['collector'] = $_POST['colUsername'];
 $collector = $_SESSION['collector'];
+$_SESSION['selectMID'] = $_POST['materialID'];
+$mID1 = $_SESSION['selectMID'];
+
 
 ?>
 <?php 
@@ -223,7 +225,7 @@ table th{
  
             <div class="col-md-4">
             <label class="username">Collector Username</label>
-            <input type="text" class="form-control"  name="colSubUsername" placeholder="Collector Username" required value="<?php echo $_SESSION['collector']; ?>"disabled></input>
+            <input type="text" class="form-control"  name="colSubUsername" placeholder="Collector Username" required value="<?php echo $collector; ?>"disabled></input>
             </div>
             <br>
             <div class="col-md-4">

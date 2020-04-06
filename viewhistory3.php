@@ -1,18 +1,3 @@
-<?php 
-include 'connection.php';
-session_start();
-if (isset($_GET['username']))
-{
-$user = $_GET['username'];
-$get_user = $mysqli->query("SELECT * FROM recycler WHERE username = '$user'");
-if ($get_user->num_rows == 1)
-{
-    $profile_data = $get_user->fetch_assoc();
-           
-}
-       
-}?> 
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,6 +7,8 @@ if ($get_user->num_rows == 1)
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+  
   <link href="https://fonts.googleapis.com/css?family=Cinzel:400,700|Montserrat:400,700|Roboto&display=swap" rel="stylesheet"> 
 
   <link rel="stylesheet" href="fonts/icomoon/style.css">
@@ -42,40 +29,8 @@ if ($get_user->num_rows == 1)
   <link href="css/jquery.mb.YTPlayer.min.css" media="all" rel="stylesheet" type="text/css">
 
   <link rel="stylesheet" href="css/style.css">
+
   <style>
-  .dropbtn {
-  
-  
-  border: none;
-  }
-
-  .dropdown {
-    position: relative;
-    display: inline-block;
-  }
-
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-  }
-
-  .dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-  }
-
-  .dropdown-content a:hover {background-color: #ddd;}
-
-  .dropdown:hover .dropdown-content {display: block;}
-
-  .dropdown:hover .dropbtn {background-color: grey;}
-
   table {
     border-collapse: collapse;
     float: center;
@@ -93,7 +48,8 @@ table th{
     vertical-align: top;
     text-align: left;
 }
-</style>
+  </style>
+
 
 
 </head>
@@ -117,7 +73,7 @@ table th{
       <div class="container">
         <div class="row align-items-center">
           <div class="col-12 text-center">
-            <a href="index.php" class="site-logo">
+            <a href="index3.php" class="site-logo">
               <img src="images/pinterest_profile_image3.jpg" alt="Image" class="img-fluid">
             </a>
           </div>
@@ -137,29 +93,12 @@ table th{
           <div class="mx-auto">
             <nav class="site-navigation position-relative text-left" role="navigation">
               <ul class="site-menu main-menu js-clone-nav mx-auto d-none pl-0 d-lg-block border-none">
-                <li><a href="index2.php" class="nav-link text-left">Home</a></li>
-                <li><a href="recordMaterial.php" class="nav-link text-left">Record Material Submission</a></li>
-                <li class="active"><a href="viewhistory2.php" class="nav-link text-left">View History</a></li>
-                <li><a href="contact2.php" class="nav-link text-left">Contact</a></li>
-                <li><div class="dropdown">
-                  <button class="dropbtn">Manage User</button>
-                  <div class="dropdown-content">
-                  <a href="userprofileC.php?username=<?php echo $_SESSION['username'] ?>">View Profile</a>      
-                    <a href="editprofileViewC.php?username=<?php echo $_SESSION['username'] ?>">Edit Profile</a>      
-                    <a href="addMaterial.php">Add Material</a>
-                    <a href="addedMaterial.php">Added Material</a>
-                  </div>
-                </div></li>
-                
-  
-                <li class="nav-link text-left" border="1px solid black">
-                  <?php
-                  //session_start();
-                  echo $_SESSION["username"];
-                  ?>
-                  </li>
+                <li ><a href="index3.php" class="nav-link text-left">Home</a></li>
+                <li><a href="#" class="nav-link text-left">Maintain Meterial Type</a></li>
+                <li class="active"><a href="viewhistory3.php" class="nav-link text-left">View History</a></li>
 
                 <li><a href="LoginandRegister.php" class="w3-button w3-white w3-border w3-round-large">Log out</a></li>
+               
               </ul>                                                                                                                                                                                                                                                                                         
             </nav>
 
@@ -173,22 +112,29 @@ table th{
     </div>
 
     
-    <div class="hero-2" style="background-image: url('images/envir2.jpeg');">
-      <div class="container">
-         <div class="row justify-content-center text-center align-items-center">
-           <div class="col-md-8">
-             <span class="sub-title">Welcome to</span>
-             <h2>View History</h2>
-           </div>
-         </div>
-       </div>
-     </div>
+    <div class="owl-carousel hero-slide owl-style">
+      <div class="intro-section container" style="background-image: url('images/envir1.jpg');">
+        <div class="row justify-content-center text-center align-items-center">
+          <div class="col-md-8">
+            <span class="sub-title">Welcome to</span>
+            <h1>Earth Protectors</h1>
+          </div>
+        </div>
+      </div>
 
-     <br>
-     <br>
+      <div class="intro-section container" style="background-image: url('images/envir2.jpeg');">
+        <div class="row justify-content-center text-center align-items-center">
+          <div class="col-md-8">
+            <span class="sub-title">Ready to</span>
+            <h1>Save the World?</h1>
+          </div>
+        </div>
+      </div>
+
+    </div>
 
 
-     <div id="container" align="center">
+    <div id="container" align="center">
       
       <?php				
           //Connect to Database
@@ -239,7 +185,7 @@ table th{
             echo'<td>'. $materialArr['points'].'</td>';
            
             echo'<td>'.		
-							'<form method="POST" action="colHistory.php">
+							'<form method="POST" action="colReHistory.php">
 							<input type="hidden" name="mID" value="'.$materialArr['mId'].'"/>
 							<input type="submit" name="select" value="Select"/>
 							</form></td>';
@@ -250,6 +196,8 @@ table th{
         ?>
       
   </div>
+    
+    
     
     <div class="footer">
       <div class="container">
@@ -269,7 +217,7 @@ table th{
             <div class="copyright">
                 <p>
                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | EarthProtectors <i class="icon-heart text-danger" aria-hidden="true"></i></a>
+                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | EarthProtectors <i class="icon-heart text-danger" aria-hidden="true"></i> </a>
                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     </p>
 
