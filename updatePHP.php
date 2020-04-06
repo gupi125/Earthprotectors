@@ -27,13 +27,13 @@ while($row = $upquery->fetch_assoc()){
     //execute Query
     if ($mysqli->query($updatedSub) == TRUE){
         //header('location:recordMaterial.php');
-        $uptotal = $mysqli->query("SELECT recycler, SUM(pointsAwarded) FROM submission GROUP BY recycler ") or die($mysqli->error);
+        $uptotal = $mysqli->query("SELECT collector,recycler, SUM(pointsAwarded) FROM submission GROUP BY recycler AND collector ") or die($mysqli->error);
         while($row1 = $uptotal->fetch_assoc()){
             
             $sumtotal = $row1['SUM(pointsAwarded)'];
 
-            $updateTotal ="UPDATE recycler SET totalPoints = '$sumtotal', ecoLevel = IF($sumtotal >= 100 AND $sumtotal < 500, 'Eco-Saver', 
-            IF($sumtotal >= 500 AND $sumtotal < 100, 'Eco-Hero', 'Eco-Warrior')) WHERE username = '$row1[recycler]' ";
+            $updateTotal ="UPDATE recycler,collector SET collector.totalPoints = '$sumtotal',recycler.totalPoints = '$sumtotal', recycler.ecoLevel = IF($sumtotal >= 100 AND $sumtotal < 500, 'Eco-Saver', 
+            IF($sumtotal >= 500 AND $sumtotal < 100, 'Eco-Hero', 'Eco-Warrior')) WHERE recycler.username = '$row1[recycler]' AND collector.username = '$row1[collector]' ";
 
             if ($mysqli->query($updateTotal) == TRUE){
                 echo '<script type="text/javascript">';
